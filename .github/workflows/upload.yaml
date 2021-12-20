@@ -26,7 +26,7 @@ jobs:
 
       - id: 'gcloud'
         name: 'upload html file'
-        # バケット名は各自で作成した名前に変更してください。
+        # https://github.com/google-github-actions/auth/issues/28
         run: |-
-          gcloud auth activate-service-account --key-file "${{ steps.auth.outputs.credentials_file_path }}"
-          gsutil cp upload_code/after/*.html gs://example-github-actions-oidc-gcp
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gcloud alpha storage cp upload_code/after/*.html gs://example-github-actions-oidc-gcp
