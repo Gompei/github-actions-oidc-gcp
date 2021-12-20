@@ -1,5 +1,6 @@
 resource "google_project_service" "iam_service" {
-  service = "iamcredentials.googleapis.com"
+  service                    = "iamcredentials.googleapis.com"
+  disable_dependent_services = true
 }
 
 resource "google_iam_workload_identity_pool" "workload_identity_pool" {
