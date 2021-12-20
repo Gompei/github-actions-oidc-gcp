@@ -18,6 +18,8 @@ resource "google_iam_workload_identity_pool_provider" "workload_identity_pool_pr
   attribute_mapping = {
     "google.subject"       = "assertion.sub"
     "attribute.repository" = "assertion.repository"
+    "attribute.actor"      = "assertion.actor"
+    "attribute.aud"        = "assertion.aud"
   }
 
   oidc {
