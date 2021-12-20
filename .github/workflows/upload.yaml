@@ -1,0 +1,29 @@
+name: List services in GCP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload_file:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: ${{secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{secrets.SERVICE_ACCOUNT }}
+
+      - id: 'gcloud'
+        name: 'upload html file'
+        # バケット名は各自で作成した名前に変更してください。
+        run: |-
+          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+          gsutil cp upload_code/after/*.html gs://example-github-actions-oidc-gcp
